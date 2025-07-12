@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard - Benang Rejut</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #fdfcf9;
+      color: #333;
+    }
+
+    .navbar {
+      background: linear-gradient(135deg, #6c5b3c, #4a3c2a);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      color: white !important;
+      font-size: 1.5rem;
+    }
+
+    .nav-link {
+      color: rgba(255,255,255,0.8) !important;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover {
+      color: white !important;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #8b7355, #6c5b3c);
+      border: none;
+      border-radius: 10px;
+      padding: 10px 20px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+    }
+
+    .card-img-top {
+      height: 250px;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .upload-section {
+      background: linear-gradient(135deg, #f8f6f0, #e8e0d0);
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .upload-area {
+      border: 2px dashed #8b7355;
+      border-radius: 10px;
+      padding: 40px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .upload-area:hover {
+      background-color: rgba(139, 115, 85, 0.1);
+    }
+
+    .upload-area.dragover {
+      background-color: rgba(139, 115, 85, 0.2);
+      border-color: #6c5b3c;
+    }
+
+    .price-tag {
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .seller-info {
+      background: #f8f6f0;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 15px;
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, #6c5b3c, #4a3c2a);
+      color: white;
+      border-radius: 15px 15px 0 0;
+    }
+
+    .btn-whatsapp {
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      border: none;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 25px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .btn-whatsapp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+      color: white;
+    }
+
+    .stats-card {
+      background: linear-gradient(135deg, #6c5b3c, #4a3c2a);
+      color: white;
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stats-number {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .category-filter {
+      background: white;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .category-btn {
+      background: transparent;
+      border: 2px solid #8b7355;
+      color: #8b7355;
+      padding: 8px 15px;
+      border-radius: 20px;
+      margin: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .category-btn:hover,
+    .category-btn.active {
+      background: #8b7355;
+      color: white;
+    }
+
+    .image-preview {
+      max-width: 100%;
+      max-height: 200px;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .loading-spinner {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+      }
+      
+      .upload-section {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#"><i class="fas fa-shopping-bag"></i> Benang Rejut</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#products">Produk</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#upload">Upload</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#orders">Pesanan</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+              <i class="fas fa-user"></i> <span id="userName">User</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#" id="profileBtn"><i class="fas fa-user"></i> Profil</a></li>
+              <li><a class="dropdown-item" href="#" id="myProductsBtn"><i class="fas fa-box"></i> Produk Saya</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Keluar</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container mt-4">
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+      <div class="col-md-3">
+        <div class="stats-card">
+          <div class="stats-number" id="totalProducts">0</div>
+          <div>Total Produk</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stats-card">
+          <div class="stats-number" id="totalOrders">0</div>
+          <div>Total Pesanan</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stats-card">
+          <div class="stats-number" id="myProducts">0</div>
+          <div>Produk Saya</div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="stats-card">
+          <div class="stats-number" id="totalViews">0</div>
+          <div>Total Views</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload Section -->
+    <div id="upload" class="upload-section">
+      <h3 class="mb-4"><i class="fas fa-upload"></i> Upload Produk Baru</h3>
+      <form id="uploadForm">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="upload-area" id="uploadArea">
+              <i class="fas fa-cloud-upload-alt fa-3x mb-3" style="color: #8b7355;"></i>
+              <h5>Drag & Drop gambar di sini</h5>
+              <p>atau klik untuk memilih file</p>
+              <small class="text-muted">Format: JPG, PNG, GIF, WebP | Maksimal: 2MB</small>
+              <input type="file" id="imageInput" accept="image/jpeg,image/jpg,image/png,image/gif,image/webp" style="display: none;">
+              <img id="imagePreview" class="image-preview" style="display: none;">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="productName" class="form-label">Nama Produk</label>
+              <input type="text" class="form-control" id="productName" placeholder="Contoh: Tas Rajut Boho Chic" required>
+            </div>
+            <div class="mb-3">
+              <label for="productPrice" class="form-label">Harga (Rp)</label>
+              <input type="number" class="form-control" id="productPrice" placeholder="150000" required>
+            </div>
+            <div class="mb-3">
+              <label for="productCategory" class="form-label">Kategori</label>
+              <select class="form-select" id="productCategory" required>
+                <option value="">Pilih Kategori</option>
+                <option value="tas-tote">Tas Tote</option>
+                <option value="tas-selempang">Tas Selempang</option>
+                <option value="tas-ransel">Tas Ransel</option>
+                <option value="tas-clutch">Tas Clutch</option>
+                <option value="tas-pantai">Tas Pantai</option>
+                <option value="aksesoris">Aksesoris</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="productDescription" class="form-label">Deskripsi</label>
+              <textarea class="form-control" id="productDescription" rows="4" placeholder="Deskripsikan produk Anda..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <i class="fas fa-plus"></i> Tambah Produk
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Category Filter -->
+    <div id="products" class="category-filter">
+      <h5 class="mb-3">Filter Kategori:</h5>
+      <button class="btn category-btn active" data-category="all">Semua</button>
+      <button class="btn category-btn" data-category="tas-tote">Tas Tote</button>
+      <button class="btn category-btn" data-category="tas-selempang">Tas Selempang</button>
+      <button class="btn category-btn" data-category="tas-ransel">Tas Ransel</button>
+      <button class="btn category-btn" data-category="tas-clutch">Tas Clutch</button>
+      <button class="btn category-btn" data-category="tas-pantai">Tas Pantai</button>
+      <button class="btn category-btn" data-category="aksesoris">Aksesoris</button>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+      <i class="fas fa-spinner fa-spin fa-2x"></i>
+      <p>Memuat produk...</p>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="product-grid" id="productsGrid">
+      <!-- Products will be loaded here -->
+    </div>
+  </div>
+
+  <!-- Product Detail Modal -->
+  <div class="modal fade" id="productModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalProductName">Detail Produk</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <img id="modalProductImage" class="img-fluid rounded" alt="Product Image">
+            </div>
+            <div class="col-md-6">
+              <div class="price-tag mb-3" id="modalProductPrice">Rp 0</div>
+              <p id="modalProductDescription"></p>
+              <div class="seller-info">
+                <h6><i class="fas fa-user"></i> Penjual</h6>
+                <p id="modalSellerName"></p>
+                <p><i class="fas fa-phone"></i> <span id="modalSellerPhone"></span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+          <button type="button" class="btn btn-whatsapp" id="orderBtn">
+            <i class="fab fa-whatsapp"></i> Pesan via WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Modal -->
+  <div class="modal fade" id="orderModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Form Pemesanan</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="orderForm">
+            <div class="mb-3">
+              <label for="buyerName" class="form-label">Nama Lengkap</label>
+              <input type="text" class="form-control" id="buyerName" required>
+            </div>
+            <div class="mb-3">
+              <label for="buyerPhone" class="form-label">Nomor WhatsApp</label>
+              <input type="tel" class="form-control" id="buyerPhone" required>
+            </div>
+            <div class="mb-3">
+              <label for="buyerAddress" class="form-label">Alamat Lengkap</label>
+              <textarea class="form-control" id="buyerAddress" rows="3" required></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="quantity" class="form-label">Jumlah</label>
+              <input type="number" class="form-control" id="quantity" value="1" min="1" required>
+            </div>
+            <div class="mb-3">
+              <label for="orderNotes" class="form-label">Catatan (Opsional)</label>
+              <textarea class="form-control" id="orderNotes" rows="2" placeholder="Warna, ukuran, atau permintaan khusus..."></textarea>
+            </div>
+            <div class="alert alert-info">
+              <i class="fas fa-info-circle"></i> Pesanan akan dikirim ke WhatsApp penjual untuk konfirmasi dan pembayaran.
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="button" class="btn btn-whatsapp" id="submitOrderBtn">
+            <i class="fab fa-whatsapp"></i> Kirim Pesanan
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Firebase CDN -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+  
+  <!-- Firebase Config -->
+  <script>
+    // Firebase configuration dan helper functions
+    document.addEventListener('DOMContentLoaded', function() {
+      // Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyDDdyLmGZ5DfdoFphVT79ZneEN_Wa0Vi70",
+        authDomain: "web-tas-rajut.firebaseapp.com",
+        databaseURL: "https://web-tas-rajut-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "web-tas-rajut",
+        storageBucket: "web-tas-rajut.firebasestorage.app",
+        messagingSenderId: "967704585349",
+        appId: "1:967704585349:web:069883239aff925755f5ec",
+        measurementId: "G-HSPHRN4499"
+      };
+
+      // Initialize Firebase
+      const app = firebase.initializeApp(firebaseConfig);
+      const database = firebase.database();
+      const auth = firebase.auth();
+
+      // Firebase helper functions
+      const FirebaseHelper = {
+        // Authentication functions
+        async registerUser(email, password, userData) {
+          try {
+            const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+            const user = userCredential.user;
+            
+            await database.ref(`users/${user.uid}`).set({
+              uid: user.uid,
+              email: email,
+              firstName: userData.firstName,
+              lastName: userData.lastName,
+              phone: userData.phone,
+              userType: userData.userType,
+              bio: userData.bio || '',
+              createdAt: new Date().toISOString(),
+              isActive: true
+            });
+            
+            return { success: true, user: user };
+          } catch (error) {
+            return { success: false, error: error.message };
+          }
+        },
+
+        async loginUser(email, password) {
+          try {
+            const userCredential = await auth.signInWithEmailAndPassword(email, password);
+            return { success: true, user: userCredential.user };
+          } catch (error) {
+            return { success: false, error: error.message };
+          }
+        },
+
+        async logoutUser() {
+          try {
+            await auth.signOut();
+            return { success: true };
+          } catch (error) {
+            return { success: false, error: error.message };
+          }
+        },
+
+        // Product functions
+        async addProduct(productData, imageBase64) {
+          try {
+            const user = auth.currentUser;
+            if (!user) {
+              throw new Error('User not authenticated');
+            }
+
+            const productRef = database.ref('products').push();
+            
+            await productRef.set({
+              id: productRef.key,
+              sellerId: user.uid,
+              name: productData.name,
+              description: productData.description,
+              price: parseFloat(productData.price),
+              category: productData.category,
+              imageUrl: imageBase64 || '',
+              createdAt: new Date().toISOString(),
+              isActive: true,
+              views: 0,
+              likes: 0
+            });
+
+            return { success: true, productId: productRef.key };
+          } catch (error) {
+            return { success: false, error: error.message };
+          }
+        },
+
+        async getProducts() {
+          try {
+            const snapshot = await database.ref('products').once('value');
+            
+            if (snapshot.exists()) {
+              const products = [];
+              snapshot.forEach(childSnapshot => {
+                const product = childSnapshot.val();
+                if (product.isActive) {
+                  products.push(product);
+                }
+              });
+              return { success: true, products: products };
+            } else {
+              return { success: true, products: [] };
+            }
+          } catch (error) {
+            return { success: false, error: error.message };
+          }
+        },
+
+        async getUserProducts(userId) {
+          try {
+            const snapshot = await database.ref('products').once('value');
+            
+            if (snapshot.exists()) {
+              const products = [];
+              snapshot.forEach(childSnapshot => {
+                const product = childSnapshot.val();
+                if (product.sellerId === userId && product.isActive) {
+                  products.push(product);
+                }
+              });
+              return { success: true, products: products };
+            } else {
+              return { success: true, products: [] };
+            }
+          } catch (error) {
+            return { success: false, error: error.message };
+          }
+        },
+
+        async deleteProduct(productId) {
+          try {
+            const user = auth.currentUser;
+            if (!user) {
+              throw new Error('User not authenticated');
+            }
+
+            await database.ref(`products/${productId}`).remove();
+            
+            return { success: true };
+          } catch (error) {
+            return { success: false, error: error.message };
+          }
+        },
+
+        // Order functions
+        async createOrder(orderData) {
+          try {
+            const user = auth.currentUser;
+            if (!user) {
+              throw new Error('User not authenticated');
+            }
+
+            const orderRef = database.ref('orders').push();
+            
+            await orderRef.set({
+              id: orderRef.key,
+              buyerId: user.uid,
+              sellerId: orderData.sellerId,
+              productId: orderData.productId,
+              productName: orderData.productName,
+              price: parseFloat(orderData.price),
+              quantity: parseInt(orderData.quantity),
+              totalAmount: parseFloat(orderData.price) * parseInt(orderData.quantity),
+              buyerName: orderData.buyerName,
+              buyerPhone: orderData.buyerPhone,
+              buyerAddress: orderData.buyerAddress,
+              notes: orderData.notes || '',
+              status: 'pending',
+              createdAt: new Date().toISOString()
+            });
+
+            return { success: true, orderId: orderRef.key };
+          } catch (error) {
+            return { success: false, error: error.message };
+          }
+        },
+
+        async getOrders(userId) {
+          try {
+            const snapshot = await database.ref('orders').once('value');
+            
+            if (snapshot.exists()) {
+              const orders = [];
+              snapshot.forEach(childSnapshot => {
+                const order = childSnapshot.val();
+                if (order.buyerId === userId || order.sellerId === userId) {
+                  orders.push(order);
+                }
+              });
+              return { success: true, orders: orders };
+            } else {
+              return { success: true, orders: [] };
+            }
+          } catch (error) {
+            return { success: false, error: error.message };
+          }
+        },
+
+        async updateOrderStatus(orderId, status) {
+          try {
+            const user = auth.currentUser;
+            if (!user) {
+              throw new Error('User not authenticated');
+            }
+
+            await database.ref(`orders/${orderId}/status`).set(status);
+            
+            return { success: true };
+          } catch (error) {
+            return { success: false, error: error.message };
+          }
+        },
+
+        // User functions
+        async getUserData(userId) {
+          try {
+            const snapshot = await database.ref(`users/${userId}`).once('value');
+            
+            if (snapshot.exists()) {
+              return { success: true, userData: snapshot.val() };
+            } else {
+              return { success: false, error: 'User not found' };
+            }
+          } catch (error) {
+            return { success: false, error: error.message };
+          }
+        },
+
+        async updateUserData(userId, userData) {
+          try {
+            await database.ref(`users/${userId}`).set(userData);
+            
+            return { success: true };
+          } catch (error) {
+            return { success: false, error: error.message };
+          }
+        },
+
+        // Utility functions
+        onAuthStateChange(callback) {
+          return auth.onAuthStateChanged(callback);
+        },
+
+        getCurrentUser() {
+          return auth.currentUser;
+        },
+
+        // Real-time listeners
+        listenToProducts(callback) {
+          return database.ref('products').on('value', (snapshot) => {
+            const products = [];
+            if (snapshot.exists()) {
+              snapshot.forEach(childSnapshot => {
+                const product = childSnapshot.val();
+                if (product.isActive) {
+                  products.push(product);
+                }
+              });
+            }
+            callback(products);
+          });
+        },
+
+        listenToOrders(userId, callback) {
+          return database.ref('orders').on('value', (snapshot) => {
+            const orders = [];
+            if (snapshot.exists()) {
+              snapshot.forEach(childSnapshot => {
+                const order = childSnapshot.val();
+                if (order.buyerId === userId || order.sellerId === userId) {
+                  orders.push(order);
+                }
+              });
+            }
+            callback(orders);
+          });
+        }
+      };
+
+      // Export for use in other files
+      window.FirebaseHelper = FirebaseHelper;
+      window.auth = auth;
+      window.database = database;
+      
+      // Dispatch event when Firebase is ready
+      window.dispatchEvent(new Event('firebaseReady'));
+    });
+  </script>
+  <script src="sample-data.js"></script>
+  
+  <script>
+    // Global variables
+    let currentUser = null;
+    let allProducts = [];
+    let currentProduct = null;
+    let currentCategory = 'all';
+
+    // Wait for Firebase to load
+    window.addEventListener('firebaseReady', function() {
+      // Check authentication state
+      window.FirebaseHelper.onAuthStateChange((user) => {
+        if (user) {
+          currentUser = user;
+          loadUserData();
+          loadProducts();
+          loadStats();
+        } else {
+          // Redirect to login if not authenticated
+          window.location.href = 'login.html';
+        }
+      });
+    });
+
+    // Load user data
+    async function loadUserData() {
+      if (currentUser) {
+        const result = await window.FirebaseHelper.getUserData(currentUser.uid);
+        if (result.success) {
+          document.getElementById('userName').textContent = result.userData.firstName;
+        }
+      }
+    }
+
+    // Load products
+    async function loadProducts() {
+      showLoading();
+      const result = await window.FirebaseHelper.getProducts();
+      if (result.success) {
+        allProducts = result.products;
+        displayProducts(allProducts);
+      }
+      hideLoading();
+    }
+
+    // Display products
+    function displayProducts(products) {
+      const grid = document.getElementById('productsGrid');
+      grid.innerHTML = '';
+
+      if (products.length === 0) {
+        grid.innerHTML = '<div class="col-12 text-center"><p>Belum ada produk yang tersedia.</p></div>';
+        return;
+      }
+
+      products.forEach(product => {
+        if (currentCategory === 'all' || product.category === currentCategory) {
+          const productCard = createProductCard(product);
+          grid.appendChild(productCard);
+        }
+      });
+    }
+
+    // Create product card
+    function createProductCard(product) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      
+      // Default placeholder image for crochet bag
+      const defaultImage = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjI1MCIgdmlld0JveD0iMCAwIDI4MCAyNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyODAiIGhlaWdodD0iMjUwIiBmaWxsPSIjZjhmNmYwIi8+CjxjaXJjbGUgY3g9IjE0MCIgY3k9IjEyNSIgcj0iNDAiIGZpbGw9IiM4Yjc3NTUiIGZpbGwtb3BhY2l0eT0iMC4zIi8+CjxwYXRoIGQ9Ik0xMDAgMTAwSDE4MFYxNTBIMTAwVjEwMFoiIGZpbGw9IiM2YzViM2MiIGZpbGwtb3BhY2l0eT0iMC41Ii8+CjxjaXJjbGUgY3g9IjEyMCIgY3k9IjEwNSIgcj0iOCIgZmlsbD0iIzZjNWIzYyIvPgo8Y2lyY2xlIGN4PSIxNjAiIGN5PSIxMDUiIHI9IjgiIGZpbGw9IiM2YzViM2MiLz4KPHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjI1MCIgdmlld0JveD0iMCAwIDI4MCAyNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyODAiIGhlaWdodD0iMjUwIiBmaWxsPSIjZjhmNmYwIi8+CjxjaXJjbGUgY3g9IjE0MCIgY3k9IjEyNSIgcj0iNDAiIGZpbGw9IiM4Yjc3NTUiIGZpbGwtb3BhY2l0eT0iMC4zIi8+CjxwYXRoIGQ9Ik0xMDAgMTAwSDI4MFYxNTBIMTAwVjEwMFoiIGZpbGw9IiM2YzViM2MiIGZpbGwtb3BhY2l0eT0iMC41Ii8+CjxjaXJjbGUgY3g9IjEyMCIgY3k9IjEwNSIgcj0iOCIgZmlsbD0iIzZjNWIzYyIvPgo8Y2lyY2xlIGN4PSIxNjAiIGN5PSIxMDUiIHI9IjgiIGZpbGw9IiM2YzViM2MiLz4KPHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjI1MCIgdmlld0JveD0iMCAwIDI4MCAyNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyODAiIGhlaWdodD0iMjUwIiBmaWxsPSIjZjhmNmYwIi8+CjxjaXJjbGUgY3g9IjE0MCIgY3k9IjEyNSIgcj0iNDAiIGZpbGw9IiM4Yjc3NTUiIGZpbGwtb3BhY2l0eT0iMC4zIi8+CjxwYXRoIGQ9Ik0xMDAgMTAwSDI4MFYxNTBIMTAwVjEwMFoiIGZpbGw9IiM2YzViM2MiIGZpbGwtb3BhY2l0eT0iMC41Ii8+CjxjaXJjbGUgY3g9IjEyMCIgY3k9IjEwNSIgcj0iOCIgZmlsbD0iIzZjNWIzYyIvPgo8Y2lyY2xlIGN4PSIxNjAiIGN5PSIxMDUiIHI9IjgiIGZpbGw9IiM2YzViM2MiLz4KPC9zdmc+';
+      
+      // Use product image if available, otherwise use default
+      const imageUrl = product.imageUrl && product.imageUrl.trim() !== '' ? product.imageUrl : defaultImage;
+      
+      card.innerHTML = `
+        <img src="${imageUrl}" class="card-img-top" alt="${product.name}" onerror="this.src='${defaultImage}'">
+        <div class="card-body">
+          <h5 class="card-title">${product.name}</h5>
+          <p class="card-text">${product.description.substring(0, 100)}${product.description.length > 100 ? '...' : ''}</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="price-tag">Rp ${formatPrice(product.price)}</span>
+            <button class="btn btn-primary btn-sm" onclick="showProductDetail('${product.id}')">
+              <i class="fas fa-eye"></i> Lihat
+            </button>
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    // Show product detail
+    async function showProductDetail(productId) {
+      const product = allProducts.find(p => p.id === productId);
+      if (!product) return;
+
+      currentProduct = product;
+      
+      // Get seller info
+      const sellerResult = await window.FirebaseHelper.getUserData(product.sellerId);
+      
+      const defaultImage = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjI1MCIgdmlld0JveD0iMCAwIDI4MCAyNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyODAiIGhlaWdodD0iMjUwIiBmaWxsPSIjZjhmNmYwIi8+CjxjaXJjbGUgY3g9IjE0MCIgY3k9IjEyNSIgcj0iNDAiIGZpbGw9IiM4Yjc3NTUiIGZpbGwtb3BhY2l0eT0iMC4zIi8+CjxwYXRoIGQ9Ik0xMDAgMTAwSDE4MFYxNTBIMTAwVjEwMFoiIGZpbGw9IiM2YzViM2MiIGZpbGwtb3BhY2l0eT0iMC41Ii8+CjxjaXJjbGUgY3g9IjEyMCIgY3k9IjEwNSIgcj0iOCIgZmlsbD0iIzZjNWIzYyIvPgo8Y2lyY2xlIGN4PSIxNjAiIGN5PSIxMDUiIHI9IjgiIGZpbGw9IiM2YzViM2MiLz4KPC9zdmc+';
+      
+      document.getElementById('modalProductName').textContent = product.name;
+      const modalImage = document.getElementById('modalProductImage');
+      modalImage.src = product.imageUrl && product.imageUrl.trim() !== '' ? product.imageUrl : defaultImage;
+      modalImage.onerror = function() { this.src = defaultImage; };
+      document.getElementById('modalProductPrice').textContent = `Rp ${formatPrice(product.price)}`;
+      document.getElementById('modalProductDescription').textContent = product.description;
+      
+      if (sellerResult.success) {
+        document.getElementById('modalSellerName').textContent = `${sellerResult.userData.firstName} ${sellerResult.userData.lastName}`;
+        document.getElementById('modalSellerPhone').textContent = sellerResult.userData.phone;
+      }
+      
+      new bootstrap.Modal(document.getElementById('productModal')).show();
+    }
+
+    // Upload form handling
+    document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('productName').value;
+      const price = document.getElementById('productPrice').value;
+      const category = document.getElementById('productCategory').value;
+      const description = document.getElementById('productDescription').value;
+      const imageFile = document.getElementById('imageInput').files[0];
+      
+      if (!imageFile) {
+        showErrorNotification('Silakan pilih gambar produk');
+        return;
+      }
+      
+      const btn = e.target.querySelector('button[type="submit"]');
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengupload...';
+      btn.disabled = true;
+      
+      try {
+        // Convert image to base64
+        const imageBase64 = await convertToBase64(imageFile);
+        
+        const result = await window.FirebaseHelper.addProduct({
+          name, price, category, description
+        }, imageBase64);
+        
+        if (result.success) {
+          showSuccessNotification('Produk berhasil ditambahkan!');
+          this.reset();
+          document.getElementById('imagePreview').style.display = 'none';
+          loadProducts();
+          loadStats();
+        } else {
+          showErrorNotification('Gagal menambahkan produk: ' + result.error);
+        }
+      } catch (error) {
+        showErrorNotification('Gagal memproses gambar: ' + error.message);
+      }
+      
+      btn.innerHTML = '<i class="fas fa-plus"></i> Tambah Produk';
+      btn.disabled = false;
+    });
+
+    // Image upload handling
+    const uploadArea = document.getElementById('uploadArea');
+    const imageInput = document.getElementById('imageInput');
+    const imagePreview = document.getElementById('imagePreview');
+
+    uploadArea.addEventListener('click', () => imageInput.click());
+    uploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      uploadArea.classList.add('dragover');
+    });
+    uploadArea.addEventListener('dragleave', () => {
+      uploadArea.classList.remove('dragover');
+    });
+    uploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      uploadArea.classList.remove('dragover');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) {
+        imageInput.files = files;
+        previewImage(files[0]);
+      }
+    });
+
+    imageInput.addEventListener('change', function(e) {
+      if (e.target.files.length > 0) {
+        previewImage(e.target.files[0]);
+      }
+    });
+
+    function previewImage(file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        imagePreview.src = e.target.result;
+        imagePreview.style.display = 'block';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Category filter
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentCategory = this.dataset.category;
+        displayProducts(allProducts);
+      });
+    });
+
+    // Order button
+    document.getElementById('orderBtn').addEventListener('click', function() {
+      new bootstrap.Modal(document.getElementById('orderModal')).show();
+    });
+
+    // Submit order
+    document.getElementById('submitOrderBtn').addEventListener('click', async function() {
+      const buyerName = document.getElementById('buyerName').value;
+      const buyerPhone = document.getElementById('buyerPhone').value;
+      const buyerAddress = document.getElementById('buyerAddress').value;
+      const quantity = document.getElementById('quantity').value;
+      const notes = document.getElementById('orderNotes').value;
+      
+      if (!buyerName || !buyerPhone || !buyerAddress || !quantity) {
+        alert('Silakan lengkapi semua field yang wajib diisi');
+        return;
+      }
+      
+      const orderData = {
+        sellerId: currentProduct.sellerId,
+        productId: currentProduct.id,
+        productName: currentProduct.name,
+        price: currentProduct.price,
+        quantity: quantity,
+        buyerName: buyerName,
+        buyerPhone: buyerPhone,
+        buyerAddress: buyerAddress,
+        notes: notes
+      };
+      
+      const result = await window.FirebaseHelper.createOrder(orderData);
+      
+      if (result.success) {
+        // Get seller data for WhatsApp
+        const sellerResult = await window.FirebaseHelper.getUserData(currentProduct.sellerId);
+        
+        if (sellerResult.success) {
+          const sellerPhone = sellerResult.userData.phone;
+          const totalAmount = currentProduct.price * quantity;
+          
+          const message = `Halo! Saya tertarik dengan produk Anda:
+
+📦 *${currentProduct.name}*
+💰 Harga: Rp ${formatPrice(currentProduct.price)}
+📊 Jumlah: ${quantity}
+💵 Total: Rp ${formatPrice(totalAmount)}
+
+👤 *Data Pembeli:*
+Nama: ${buyerName}
+Phone: ${buyerPhone}
+Alamat: ${buyerAddress}
+
+${notes ? `📝 Catatan: ${notes}` : ''}
+
+Mohon konfirmasi ketersediaan dan detail pembayaran. Terima kasih!`;
+          
+          const whatsappUrl = `https://wa.me/${sellerPhone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`;
+          window.open(whatsappUrl, '_blank');
+          
+          // Close modals
+          bootstrap.Modal.getInstance(document.getElementById('orderModal')).hide();
+          bootstrap.Modal.getInstance(document.getElementById('productModal')).hide();
+          
+          // Reset form
+          document.getElementById('orderForm').reset();
+          document.getElementById('quantity').value = 1;
+        }
+      } else {
+        alert('Gagal membuat pesanan: ' + result.error);
+      }
+    });
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', async function() {
+      const result = await window.FirebaseHelper.logoutUser();
+      if (result.success) {
+        window.location.href = 'index.html';
+      }
+    });
+
+    // Load stats
+    async function loadStats() {
+      const productsResult = await window.FirebaseHelper.getProducts();
+      const userProductsResult = await window.FirebaseHelper.getUserProducts(currentUser.uid);
+      const ordersResult = await window.FirebaseHelper.getOrders(currentUser.uid);
+      
+      if (productsResult.success) {
+        document.getElementById('totalProducts').textContent = productsResult.products.length;
+      }
+      
+      if (userProductsResult.success) {
+        document.getElementById('myProducts').textContent = userProductsResult.products.length;
+      }
+      
+      if (ordersResult.success) {
+        document.getElementById('totalOrders').textContent = ordersResult.orders.length;
+      }
+    }
+
+    // Utility functions
+    function formatPrice(price) {
+      return new Intl.NumberFormat('id-ID').format(price);
+    }
+
+    function showLoading() {
+      document.getElementById('loadingSpinner').style.display = 'block';
+    }
+
+    function hideLoading() {
+      document.getElementById('loadingSpinner').style.display = 'none';
+    }
+
+    // Convert image file to base64
+    function convertToBase64(file) {
+      return new Promise((resolve, reject) => {
+        // Check file type
+        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+        if (!allowedTypes.includes(file.type)) {
+          reject(new Error('Format gambar tidak didukung. Gunakan JPG, PNG, GIF, atau WebP.'));
+          return;
+        }
+
+        // Check file size (max 2MB for base64)
+        if (file.size > 2 * 1024 * 1024) {
+          reject(new Error('Ukuran gambar terlalu besar. Maksimal 2MB.'));
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          resolve(e.target.result);
+        };
+        reader.onerror = function(error) {
+          reject(new Error('Gagal membaca file gambar.'));
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Show success notification
+    function showSuccessNotification(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast align-items-center text-bg-success border-0';
+      toast.style.position = 'fixed';
+      toast.style.top = '20px';
+      toast.style.right = '20px';
+      toast.style.zIndex = '9999';
+      toast.innerHTML = `
+        <div class="d-flex">
+          <div class="toast-body">
+            <i class="fas fa-check-circle me-2"></i>${message}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+      `;
+      document.body.appendChild(toast);
+      
+      // Initialize and show toast
+      const bsToast = new bootstrap.Toast(toast);
+      bsToast.show();
+      
+      // Remove from DOM after hiding
+      toast.addEventListener('hidden.bs.toast', () => {
+        document.body.removeChild(toast);
+      });
+    }
+
+    // Show error notification
+    function showErrorNotification(message) {
+      const toast = document.createElement('div');
+      toast.className = 'toast align-items-center text-bg-danger border-0';
+      toast.style.position = 'fixed';
+      toast.style.top = '20px';
+      toast.style.right = '20px';
+      toast.style.zIndex = '9999';
+      toast.innerHTML = `
+        <div class="d-flex">
+          <div class="toast-body">
+            <i class="fas fa-exclamation-circle me-2"></i>${message}
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        </div>
+      `;
+      document.body.appendChild(toast);
+      
+      // Initialize and show toast
+      const bsToast = new bootstrap.Toast(toast);
+      bsToast.show();
+      
+      // Remove from DOM after hiding
+      toast.addEventListener('hidden.bs.toast', () => {
+        document.body.removeChild(toast);
+      });
+    }
+  </script>
+</body>
+</html> 
